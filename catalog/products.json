@@ -1,0 +1,93 @@
+{
+  "products": [
+    {
+      "sku": "ROLL-STD-001",
+      "name": "Standard Industrial Roll",
+      "description": "Baseline production roll, used across general manufacturing lines.",
+      "base_price_eur": 450,
+      "base_price_usd": 495,
+      "attributes": {
+        "available_widths_mm": [500, 1000, 1500],
+        "material": "carbon_steel",
+        "min_order_qty": 50
+      }
+    },
+    {
+      "sku": "ROLL-PRM-002",
+      "name": "Premium Coated Roll",
+      "description": "Coated roll for specialised production environments requiring heat or static resistance.",
+      "base_price_eur": 820,
+      "base_price_usd": 905,
+      "attributes": {
+        "available_widths_mm": [500, 1000, 1500],
+        "available_coatings": ["anti_static", "heat_resistant"],
+        "material": "stainless_steel",
+        "min_order_qty": 25
+      }
+    },
+    {
+      "sku": "ROLL-CST-003",
+      "name": "Custom Specification Roll",
+      "description": "Made-to-spec roll with customer-defined dimensions and material.",
+      "base_price_eur": 1200,
+      "base_price_usd": 1320,
+      "attributes": {
+        "custom_width": true,
+        "custom_material": true,
+        "lead_time_weeks": 8,
+        "min_order_qty": 10
+      }
+    },
+    {
+      "sku": "SVC-INST-004",
+      "name": "On-site Installation Service",
+      "description": "Engineer-led installation, calibration, and handover at customer site.",
+      "base_price_eur": 350,
+      "base_price_usd": 385,
+      "attributes": {
+        "available_regions": ["eu", "us", "apac"],
+        "duration_hours": 8
+      }
+    },
+    {
+      "sku": "SVC-SUPP-005",
+      "name": "Annual Support Contract",
+      "description": "12-month support agreement covering troubleshooting, preventive maintenance, and parts.",
+      "base_price_eur": 600,
+      "base_price_usd": 660,
+      "attributes": {
+        "tiers": ["basic", "premium", "enterprise"],
+        "renewal_term_months": 12
+      }
+    }
+  ],
+
+  "discount_rules": [
+    {
+      "id": "VOL-1000",
+      "name": "Volume discount — 1000+ units",
+      "type": "volume",
+      "applies_to": "any_single_sku",
+      "threshold_qty": 1000,
+      "discount_pct": 10,
+      "description": "10% discount on any single SKU when order quantity is 1000 or more."
+    },
+    {
+      "id": "BUNDLE-ROLL-SVC",
+      "name": "Bundle discount — Roll product + Annual Support",
+      "type": "bundle",
+      "applies_to_skus": ["ROLL-STD-001", "ROLL-PRM-002", "ROLL-CST-003"],
+      "requires_companion": "SVC-SUPP-005",
+      "discount_pct": 8,
+      "description": "8% bundle discount when any ROLL product is ordered together with the Annual Support Contract."
+    },
+    {
+      "id": "REGIONAL-EU",
+      "name": "Regional discount — EU shipments",
+      "type": "regional",
+      "region": "eu",
+      "discount_pct": 5,
+      "description": "5% discount on the entire order when shipping address is within the EU."
+    }
+  ]
+}
