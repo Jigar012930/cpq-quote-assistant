@@ -92,3 +92,48 @@ print(
     f"Tokens used — input: {response.usage.input_tokens}, "
     f"output: {response.usage.output_tokens}"
 )
+# ---------------------------------------------------------------------------
+# 7. Output looks like this:
+# ---------------------------------------------------------------------------
+# ======================================================================
+# USER QUESTION:
+# Customer wants 1200 units of ROLL-STD-001 in 1000mm width, shipping to Germany. They're also asking about adding the annual premium support contract. What's the quote?
+# ======================================================================
+# CLAUDE RESPONSE:
+# **Quote Summary**
+
+# **Line Items:**
+# 1. **ROLL-STD-001** (Standard Industrial Roll, 1000mm width)
+#    - Quantity: 1,200 units
+#    - Base price: €450/unit
+#    - Subtotal: €540,000
+
+# 2. **SVC-SUPP-005** (Annual Support Contract, Premium tier)
+#    - Quantity: 1 contract
+#    - Base price: €600
+#    - Subtotal: €600
+
+# **Discount Analysis:**
+
+# ✓ **Applied VOL-1000**: 10% volume discount on ROLL-STD-001 (qty ≥ 1000)
+#   - Savings: €54,000
+
+# ✓ **Applied BUNDLE-ROLL-SVC**: 8% bundle discount (ROLL product + Annual Support)
+#   - Savings on rolls: €38,880 (8% of €486,000 after volume discount)
+#   - Savings on support: €48 (8% of €600)
+#   - Total bundle savings: €38,928
+
+# ✓ **Applied REGIONAL-EU**: 5% regional discount (shipping to Germany/EU)
+#   - Savings: €22,339 (5% of remaining €446,772)
+
+# **Pricing Calculation:**
+# - Gross subtotal: €540,600
+# - After VOL-1000: €486,600
+# - After BUNDLE-ROLL-SVC: €447,672
+# - After REGIONAL-EU: €425,288
+
+# **Final Total: €425,288**
+
+# **Notes:** All discounts stack as qualified. Currency is EUR for EU delivery. Lead time: standard (ROLL-STD-001 min order qty 50 units is met).
+# ======================================================================
+# Tokens used — input: 1273, output: 405
