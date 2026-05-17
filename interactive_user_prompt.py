@@ -18,19 +18,33 @@ with open(CATALOG_PATH, "r", encoding="utf-8") as f:
 #     catalog = json.load(f)
 #
 
-SYSTEM_PROMPT = f"""You are a quoting assistant which has information about the products and discount rules of an industrial roll manufacturer. When asked for a quote, you must:
-1. Identify the requested products by SKU and the region.
-2. List line items with quantity and base price.
-3. Evaluate every discount rule and apply the ones that qualify. Cite each applied rule by its ID (e.g. "Applied VOL-1000").
+SYSTEM_PROMPT = f"""You are a quoting assistant which has information about the products and discount rules of an industrial roll manufacturer who respects rules and provides quotes based on the information provided.
+
+Please respect the following rules:
+1. Required information before quoting:
+    - Product SKU(s) or product names 
+    - Quantity for each SKU
+    - Shipping country not just region (to determine the correct currency and regional discounts not just "EU" or "non-EU" or "Asia" but the specific country like "Netherlands", "Germany", "USA", "China" etc.)
+    If any of this information is missing or ambiguous, ask one clarifying question to get the missing information before providing a quote. Until then, do not provide a quote.
+2. Product Validation:
+    - Identify the requested products by SKU or name
+    - If a SKU is not found in the catalog, respond with "Error: Product not found in catalog." and do not attempt to quote.
+    - If the requested quantity for any SKU is below the minimum order quantity specified in the catalog, respond with "Error: Minimum order quantity for Product is Min quantity present in the catalog." and do not attempt to quote.
+
+If the rules above are satisfied, then provide a quote as follows:
+    
+1. List line items with quantity and base price.
+2. Evaluate every discount rule and apply the ones that qualify. Cite each applied rule by its ID (e.g. "Applied VOL-1000").
+3. If a discount rules applies on multiple SKUs, apply the discount on each applicable SKU and show the math for each one separately. For example, if VOL-1000 applies to two SKUs, show the discount calculation for each SKU separately and cite the rule for each one.
 4. Show the math: subtotal, discounts, final total.
-5. Use the currency implied by the shipping region (EUR for EU, USD otherwise).
+5. Use the currency implied by the shipping region (EUR for European Union, USD for every other country).
 6. Be concise. Show your reasoning briefly but clearly.
 the information about the products and discount rules are given below:
 {json.dumps(catalog, indent=2)}
 """
+#We added line 3. If a discount rules applies on multiple SKUs, apply the discount on each applicable SKU and show the math for each one separately. For example, if VOL-1000 applies to two SKUs, show the discount calculation for each SKU separately and cite the rule for each one." even when we did specify the same rule in catalog but CLAUDE does need an extra nudge to ensure the discounts are applied correctly on each SKU when multiple SKUs qualify for the same discount rule. This is a common area where LLMs can make mistakes, so we added this explicit instruction to ensure the correct application of discounts in multi-SKU scenarios.
 
 client = Anthropic()
-
 
 while True:
     user_input = input("Please enter your quoting question (or 'exit/bye' to quit): ")
