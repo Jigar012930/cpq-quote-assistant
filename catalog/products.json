@@ -79,7 +79,7 @@
       "applies_to_skus": ["ROLL-STD-001", "ROLL-PRM-002", "ROLL-CST-003"],
       "requires_companion": "SVC-SUPP-005",
       "discount_pct": 8,
-      "description": "8% bundle discount when any ROLL product is ordered together with the Annual Support Contract."
+      "description": "8% bundle discount when any ROLL product is ordered together with the Annual Support Contract. Applies to each eligible SKU bundled with SVC-SUPP-005 in the same order."
     },
     {
       "id": "REGIONAL-EU",
